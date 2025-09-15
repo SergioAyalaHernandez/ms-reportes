@@ -8,5 +8,6 @@ public class Constants {
   public static final String INICIANDO_CONSULTA = "Iniciando consulta de reportes en DynamoDB";
   public static final String CANTIDAD_REPORTES = "Cantidad de reportes obtenidos: ";
   public static final String MONTO_TOTAL = "Monto total calculado: ";
+  public static final String DECIMALES = ".00";
 
 }

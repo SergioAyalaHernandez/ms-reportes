@@ -24,7 +24,7 @@ public class IngresarDatosUseCase {
   }
 
   private Reporte construirReporte(MontoAprobado montoAprobado) {
-    String montoStr = montoAprobado.getMontoAprobado().replace(".00", "");
+    String montoStr = montoAprobado.getMontoAprobado().replace(Constants.DECIMALES, "");
     return Reporte.builder()
             .fecha(LocalDate.now())
             .monto(Long.parseLong(montoStr))
