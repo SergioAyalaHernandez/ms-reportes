@@ -13,6 +13,7 @@ import software.amazon.awssdk.enhanced.dynamodb.model.PagePublisher;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -28,6 +29,11 @@ class DynamoDBTemplateAdapterTest {
     void setUp() {
         client = Mockito.mock(DynamoDbEnhancedAsyncClient.class);
         mapper = Mockito.mock(ObjectMapper.class);
+        Mockito.when(mapper.map(Mockito.any(ReporteEntity.class), Mockito.eq(Reporte.class)))
+               .thenAnswer(invocation -> {
+                   ReporteEntity entity = invocation.getArgument(0);
+                   return new Reporte(entity.getId(), LocalDate.now(), entity.getMonto());
+               });
         adapter = Mockito.spy(new DynamoDBTemplateAdapter(client, mapper));
 
         DynamoDbAsyncTable<ReporteEntity> tableMock = Mockito.mock(DynamoDbAsyncTable.class);
@@ -72,5 +78,14 @@ class DynamoDBTemplateAdapterTest {
             assertEquals("id", r.getId());
             assertEquals(200L, r.getMonto());
         });
+    }
+
+    @Test
+    void testMapperConversion() {
+        ReporteEntity entity = new ReporteEntity("id", LocalDate.now().toString(), 100L);
+        Reporte reporte = mapper.map(entity, Reporte.class);
+        assertNotNull(reporte);
+        assertEquals("id", reporte.getId());
+        assertEquals(100L, reporte.getMonto());
     }
 }

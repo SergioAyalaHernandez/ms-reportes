@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation 'org.springframework:spring-context'
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+}

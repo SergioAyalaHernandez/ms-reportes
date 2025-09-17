@@ -1,6 +1,9 @@
 server:
   port: 8082
 spring:
+  config:
+    import:
+      - optional:aws-secretsmanager:crediya-secrets
   application:
     name: "ms-reporte"
   devtools:
@@ -36,6 +39,11 @@ management:
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 aws:
-  region: us-east-1
+  region: "us-east-1"
   dynamodb:
     endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+adapter:
+  sqs:
+    region: "us-east-1"
+    queueUrl: "https://sqs.us-east-1.amazonaws.com/057914081242/notificar-reporte-scheduler"
+    endpoint: "https://sqs.us-east-1.amazonaws.com/057914081242/notificar-reporte-scheduler"
